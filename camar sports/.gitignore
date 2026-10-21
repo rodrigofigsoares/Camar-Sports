@@ -1,0 +1,11 @@
+node_modules/
+dist/
+reference/
+reference-v2.1/
+*.tsbuildinfo
+test-results/
+playwright-report/
+.env*
+data/
+.npm-cache/
+artifacts/

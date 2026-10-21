@@ -1,0 +1,14 @@
+import { SqliteRepository } from '../server/repository.ts';
+import { createTournament, team } from '../src/domain/model.ts';
+import { generate } from '../src/domain/tournament.ts';
+const repo = new SqliteRepository('artifacts/qa.sqlite');
+const t = createTournament('Copa · conjuntos de fases', 'handball');
+t.id = 'qa-group-bracket';
+t.teams = Array.from({length:8}, (_,i) => team(['Pinheiros','Taubaté','Santos','Campinas','Guarulhos','São José','Sorocaba','São Caetano'][i],i));
+const out = generate(t,'single',t.teams,'Principal');
+out.tournament.groups = [{id:'q',name:'Quartas de Final',parentId:null},{id:'s',name:'Semifinais',parentId:null},{id:'f',name:'Final',parentId:null}];
+out.tournament.stages.forEach((s,i)=>s.groupId=i<4?'q':i<6?'s':'f');
+out.tournament.overlay.screens=['bracket'];
+out.matches.forEach(m=>repo.put('match',m));
+repo.put('tournament',out.tournament);
+repo.db.close();

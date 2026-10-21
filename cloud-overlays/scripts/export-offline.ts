@@ -1,0 +1,26 @@
+import { DatabaseSync } from 'node:sqlite';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { createHash, randomBytes } from 'node:crypto';
+import { matchSchema, tournamentSchema } from '../src/domain/model.ts';
+import { pause } from '../src/domain/scoring.ts';
+import { validateTournament } from '../src/domain/tournament.ts';
+const source = '../camar sports/data/camar.sqlite';
+const db = new DatabaseSync(source,{readOnly:true});
+db.exec('BEGIN');
+const rows = db.prepare("SELECT kind,id,payload FROM entities WHERE kind IN ('match','tournament') ORDER BY kind,id").all() as {kind:string;id:string;payload:string}[];
+db.exec('COMMIT');db.close();
+const matches=rows.filter(r=>r.kind==='match').map(r=>matchSchema.parse(JSON.parse(r.payload)));
+const tournaments=rows.filter(r=>r.kind==='tournament').map(r=>tournamentSchema.parse(JSON.parse(r.payload)));
+for(const t of tournaments) validateTournament(t,matches);
+const exportedAt=new Date().toISOString();
+const snapshot={version:2,exportedAt,matches:structuredClone(matches),tournaments};
+for(const m of matches) pause(m,Date.now());
+mkdirSync('artifacts',{recursive:true});
+writeFileSync('artifacts/offline-backup.json',JSON.stringify(snapshot,null,2));
+const quote=(s:string)=>"'"+s.replaceAll("'","''")+"'";
+const sql=[...tournaments.map(t=>({kind:'tournament',value:t})),...matches.map(m=>({kind:'match',value:m}))]
+  .map(({kind,value})=>`INSERT INTO entities(kind,id,payload) VALUES(${quote(kind)},${quote(value.id)},${quote(JSON.stringify(value))});`).join('\n');
+writeFileSync('artifacts/import-cloud.sql',sql+'\nUPDATE generation SET version=version+1 WHERE id=1;\n');
+writeFileSync('artifacts/migration-manifest.json',JSON.stringify({exportedAt,source,sourceSha256:createHash('sha256').update(readFileSync(source)).digest('hex'),matches:matches.length,tournaments:tournaments.length,clocks:'paused',users:'not exported; separate cloud setup'},null,2));
+if(!existsSync('.dev.vars')) writeFileSync('.dev.vars','SETUP_TOKEN='+randomBytes(32).toString('hex')+'\n');
+console.log(JSON.stringify({matches:matches.length,tournaments:tournaments.length,backup:'artifacts/offline-backup.json',clocks:'paused'}));
