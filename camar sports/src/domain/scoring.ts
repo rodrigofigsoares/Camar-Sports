@@ -290,6 +290,11 @@ export function applyCommand(
     m[c.side][c.field] = Math.max(0, m[c.side][c.field] + c.amount);
     if (c.field === "sets" && c.amount > 0) closeSetMatch(m, now);
   } else if (c.type === "clock") {
+    const correction = c.action === "adjust" || c.action === "set";
+    const valueBefore = clockValue(m.clock, now);
+    const wasRunning = m.clock.startedAt !== null && m.status !== "done" &&
+      (m.clock.direction === "down" ? valueBefore > 0 : valueBefore < (m.clock.limit || 86400));
+    const shotWasRunning = m.shotClock.startedAt !== null;
     pause(m, now);
     const oldValue = m.clock.value;
     if (c.action === "start") {
@@ -322,6 +327,13 @@ export function applyCommand(
       );
     if (m.sport === "handball" && (c.action === "adjust" || c.action === "set"))
       m.playElapsed = Math.max(0, m.playElapsed + (m.clock.value - oldValue) * (m.clock.direction === "up" ? 1 : -1));
+    if (correction && wasRunning &&
+      (m.clock.direction === "down" ? m.clock.value > 0 : m.clock.value < (m.clock.limit || 86400))) {
+      // Rebase at the correction instant, preserving continuous elapsed time.
+      m.clock.startedAt = now;
+      m.playStartedAt = now;
+      if (shotWasRunning && m.shotClock.value > 0) m.shotClock.startedAt = now;
+    }
   } else if (c.type === "clockConfig") {
     pause(m, now);
     m.clock = { ...c.clock, startedAt: null };

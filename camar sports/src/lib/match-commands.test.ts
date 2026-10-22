@@ -14,6 +14,39 @@ function setup() {
   const queue=new MatchCommands({current:()=>visible,send:(revision,command)=>new Promise((resolve,reject)=>requests.push({revision,command,resolve,reject})),recover,render,pending,notice,now:()=>2000});
   return {queue,requests,render,pending,notice,recover,confirmed,visible:()=>visible};
 }
+it('previews +1 immediately and preserves rapid clicks while requests are pending',async()=>{
+  const h=setup();
+  const first=h.queue.command({type:'clock',action:'adjust',seconds:1});
+  expect(clockValue(h.visible().clock,2000)).toBe(102);
+  expect(h.visible().clock.startedAt).not.toBeNull();
+  const second=h.queue.command({type:'clock',action:'adjust',seconds:1});
+  expect(clockValue(h.visible().clock,2000)).toBe(103);
+  expect(h.requests).toHaveLength(1);
+  const saved={...applyCommand(h.confirmed,h.requests[0].command!,2000),revision:1};
+  h.requests[0].resolve(saved);await first;
+  expect(h.requests).toHaveLength(2);expect(h.requests[1].revision).toBe(1);
+  expect(clockValue(h.visible().clock,2000)).toBe(103);
+  h.requests[1].resolve({...applyCommand(saved,h.requests[1].command!,2000),revision:2});await second;
+  expect(h.visible().revision).toBe(2);expect(clockValue(h.visible().clock,3000)).toBe(104);
+  expect(h.pending).toHaveBeenLastCalledWith(false);
+});
+it('discards unsaved previews and queued corrections after conflict',async()=>{
+  const h=setup();
+  const a=h.queue.command({type:'clock',action:'adjust',seconds:1});
+  const b=h.queue.command({type:'clock',action:'adjust',seconds:1});
+  h.requests[0].reject(new Error('Conflito de revisão'));
+  await Promise.all([a,b]);
+  expect(h.requests).toHaveLength(1);expect(h.recover).toHaveBeenCalledOnce();
+  expect(h.visible()).toEqual(h.confirmed);expect(h.notice).toHaveBeenLastCalledWith('Conflito de revisão');
+  expect(h.pending).toHaveBeenLastCalledWith(false);
+});
+it('does not update another screen if unmounted during a request',async()=>{
+  const h=setup();const pending=h.queue.command({type:'clock',action:'adjust',seconds:1});
+  h.queue.dispose();await pending;
+  const renders=h.render.mock.calls.length;
+  h.requests[0].resolve({...h.confirmed,revision:1});await Promise.resolve();
+  expect(h.render).toHaveBeenCalledTimes(renders);
+});
 
 it('accepts rapid alternating points and corrections without rolling the preview back', async () => {
   const h=setup();
