@@ -10,7 +10,8 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "noEmit": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "paths": { "@app/api": ["./src/lib/api.ts"] }
   },
   "include": ["src", "server", "vite.config.ts", "../shared"]
 }

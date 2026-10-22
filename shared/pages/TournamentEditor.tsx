@@ -46,7 +46,7 @@ import {
   type Team,
   type Tournament,
   type User,
-} from "../../../shared/domain/model";
+} from "../domain/model";
 import {
   fixtures,
   generate,
@@ -58,10 +58,10 @@ import {
   editStage,
   type Format,
   type Resolved,
-} from "../../../shared/domain/tournament";
-import { result, usesSets } from "../../../shared/domain/scoring";
-import { csvTemplate, exportCsv, importCsv } from "../../../shared/domain/csv";
-import { api, download, navigate, useTournament } from "../lib/api";
+} from "../domain/tournament";
+import { result, usesSets } from "../domain/scoring";
+import { csvTemplate, exportCsv, importCsv } from "../domain/csv";
+import { api, download, navigate, platform, useTournament } from "@app/api";
 import {
   Badge,
   Confirm,
@@ -71,7 +71,7 @@ import {
   Notice,
   Status,
   UrlBox,
-} from "../../../shared/components/ui";
+} from "../components/ui";
 
 type FlowData = {
   stage: Stage;
@@ -235,6 +235,8 @@ export default function TournamentEditor({
     (user.role === "admin" ||
       user.sports.length === 0 ||
       (!!t && user.sports.includes(t.sport)));
+  // Na nuvem, visualizadores só têm preview e não geram links de overlay.
+  const canShareOverlay = !(platform.viewerSandbox && user.role === "viewer");
   const resolved = useMemo(() => (t ? resolve(t, matches) : {}), [t, matches]);
   useEffect(() => {
     if (t)
@@ -309,10 +311,10 @@ export default function TournamentEditor({
             </p>
           </div>
           <div className="row">
-            <button onClick={() => setModal("overlay")}>
+            {canShareOverlay && <button onClick={() => setModal("overlay")}>
               <Radio size={16} />
               Transmissão
-            </button>
+            </button>}
             <button
               className="icon"
               title="Configurar campeonato"
@@ -755,7 +757,7 @@ export default function TournamentEditor({
           remove={() => setModal("delete")}
         />
       )}
-      {modal === "overlay" && (
+      {canShareOverlay && modal === "overlay" && (
         <OverlaySettings
           tournament={t}
           editable={editable}

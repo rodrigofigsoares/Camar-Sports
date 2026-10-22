@@ -43,9 +43,9 @@ import {
   Status,
 } from "../../shared/components/ui";
 import { SportCourt } from "../../shared/components/SportCourt";
-import MatchControl from "./pages/MatchControl";
-import TournamentEditor from "./pages/TournamentEditor";
-import { MatchOverlay, TournamentOverlay } from "./pages/Overlays";
+import MatchControl from "../../shared/pages/MatchControl";
+import TournamentEditor from "../../shared/pages/TournamentEditor";
+import { MatchOverlay, TournamentOverlay } from "../../shared/pages/Overlays";
 
 function Login({
   setup,

@@ -70,7 +70,8 @@ export function useResource<T>(path: string, suspended?: {current: boolean}) {
   }, [refresh]);
   return { data, setData: replaceData, error, connected, refresh };
 }
-export function useMatch(matchId: string) {
+// O segundo parâmetro existe só para ter a mesma assinatura da versão de nuvem.
+export function useMatch(matchId: string, _sandbox = false) {
   const suspended=useRef(false);
   const resource = useResource<Match>("matches/" + matchId,suspended),
     [busy, setBusy] = useState(false),
@@ -178,3 +179,20 @@ export function download(
 export const navigate = (path: string) => {
   location.hash = path;
 };
+
+/** Diferenças de comportamento entre as versões, lidas pelas páginas em shared/. */
+export const platform = {
+  /** Na versão offline, visualizadores continuam sem poder editar (sem preview). */
+  viewerSandbox: false,
+  /** Complemento do texto "removidos da base ___". */
+  storageLabel: "local",
+  /** Trava os controles do painel enquanto um comando está sendo salvo. */
+  lockWhileSaving: true,
+} as const;
+
+/** Overlay de campeonato: a offline busca campeonato e partidas em duas requisições. */
+export function useTournamentOverlayData(tournamentId: string) {
+  const { data: t, error } = useResource<Tournament>("tournaments/" + tournamentId);
+  const { data: ms } = useResource<Match[]>("matches?tournament=" + tournamentId);
+  return { t, ms, error };
+}

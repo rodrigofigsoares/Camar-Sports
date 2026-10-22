@@ -1,7 +1,12 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { fileURLToPath } from "node:url";
 import { createApi } from "./server/api";
 export default defineConfig({
+  resolve: {
+    // As páginas em shared/ importam a camada de API específica de cada versão.
+    alias: { "@app/api": fileURLToPath(new URL("./src/lib/api.ts", import.meta.url)) },
+  },
   plugins: [
     react(),
     {

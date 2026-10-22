@@ -246,3 +246,21 @@ export function download(
 export const navigate = (path: string) => {
   location.hash = path;
 };
+
+/** Diferenças de comportamento entre as versões, lidas pelas páginas em shared/. */
+export const platform = {
+  /** Visualizadores operam uma cópia temporária (preview) que não é salva. */
+  viewerSandbox: true,
+  /** Complemento do texto "removidos da base ___". */
+  storageLabel: "na nuvem",
+  /** Trava os controles do painel enquanto um comando está sendo salvo. */
+  lockWhileSaving: false,
+} as const;
+
+/** Overlay de campeonato: a nuvem busca campeonato e partidas num só snapshot. */
+export function useTournamentOverlayData(tournamentId: string) {
+  const { data: snapshot, error } = useResource<{ tournament: Tournament; matches: Match[] }>(
+    "tournaments/" + tournamentId + "/state",
+  );
+  return { t: snapshot?.tournament, ms: snapshot?.matches, error };
+}
