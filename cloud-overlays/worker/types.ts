@@ -1,4 +1,4 @@
-import type { User } from '../src/domain/model';
+import type { User } from '../../shared/domain/model';
 import type { LiveRoom } from './live-room';
 export type StoredUser = User & { passwordHash: string };
 export type Env = Omit<Cloudflare.Env, 'LIVE_ROOMS'> & { LIVE_ROOMS: DurableObjectNamespace<LiveRoom> };

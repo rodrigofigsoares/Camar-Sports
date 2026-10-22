@@ -1,6 +1,6 @@
 import {DatabaseSync} from 'node:sqlite';
-import {tournamentSchema} from '../src/domain/model.ts';
-import {validateTournament} from '../src/domain/tournament.ts';
+import {tournamentSchema} from '../../shared/domain/model.ts';
+import {validateTournament} from '../../shared/domain/tournament.ts';
 const db=new DatabaseSync('data/camar.sqlite',{readOnly:true});
 const rows=db.prepare('SELECT kind,payload FROM entities WHERE kind IN (?,?)').all('tournament','match');
 const ms=rows.filter(r=>r.kind==='match').map(r=>JSON.parse(r.payload));

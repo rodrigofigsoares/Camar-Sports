@@ -12,7 +12,7 @@ import {
   type Match,
   type Tournament,
   type User,
-} from "../src/domain/model.ts";
+} from "../../shared/domain/model.ts";
 import {
   applyCommand,
   commandSchema,
@@ -20,8 +20,8 @@ import {
   resetParticipants,
   result,
   finishExpiredMatch,
-} from "../src/domain/scoring.ts";
-import { resolve, validateTournament } from "../src/domain/tournament.ts";
+} from "../../shared/domain/scoring.ts";
+import { resolve, validateTournament } from "../../shared/domain/tournament.ts";
 import { D1Repository } from "./repository";
 
 class HttpError extends Error {

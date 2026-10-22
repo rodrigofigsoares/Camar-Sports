@@ -1,0 +1,23 @@
+{
+  "name": "@camar/shared",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Regras esportivas, componentes e utilitários usados pelas duas versões (offline e nuvem).",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@xyflow/react": "^12.11.6",
+    "lucide-react": "^0.468.0",
+    "papaparse": "^5.5.3",
+    "react": "^19.1.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.3.16",
+    "@types/react": "^19.1.0",
+    "typescript": "~5.8.3",
+    "vitest": "^3.2.0"
+  }
+}

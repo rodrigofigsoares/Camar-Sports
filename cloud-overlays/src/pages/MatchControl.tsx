@@ -20,7 +20,7 @@ import {
   type Match,
   type Side,
   type User,
-} from "../domain/model";
+} from "../../../shared/domain/model";
 import {
   clockValue,
   formatTime,
@@ -30,7 +30,7 @@ import {
   shootoutPoints,
   timeoutRemaining,
   penaltyRemaining,
-} from "../domain/scoring";
+} from "../../../shared/domain/scoring";
 import { api, navigate, useMatch, useNow } from "../lib/api";
 import {
   Badge,
@@ -40,7 +40,7 @@ import {
   Notice,
   Status,
   UrlBox,
-} from "../components/ui";
+} from "../../../shared/components/ui";
 import { Scoreboard } from "./Overlays";
 
 export default function MatchControl({

@@ -1,4 +1,4 @@
-import type { Match } from '../src/domain/model';
+import type { Match } from '../../shared/domain/model';
 import { HttpError } from './types';
 
 type Kind = 'match' | 'tournament' | 'user';

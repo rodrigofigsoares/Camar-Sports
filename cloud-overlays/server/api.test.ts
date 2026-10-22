@@ -2,9 +2,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createServer, type Server } from "node:http";
 import { createApi } from "./api";
 import { SqliteRepository } from "./repository";
-import { team, type Match, type Tournament } from "../src/domain/model";
-import { generate, removeStages } from "../src/domain/tournament";
-import { importCsv } from "../src/domain/csv";
+import { team, type Match, type Tournament } from "../../shared/domain/model";
+import { generate, removeStages } from "../../shared/domain/tournament";
+import { importCsv } from "../../shared/domain/csv";
 describe("API SQLite", () => {
   let server: Server,
     app: ReturnType<typeof createApi>,

@@ -46,7 +46,7 @@ import {
   type Team,
   type Tournament,
   type User,
-} from "../domain/model";
+} from "../../../shared/domain/model";
 import {
   fixtures,
   generate,
@@ -58,9 +58,9 @@ import {
   editStage,
   type Format,
   type Resolved,
-} from "../domain/tournament";
-import { result, usesSets } from "../domain/scoring";
-import { csvTemplate, exportCsv, importCsv } from "../domain/csv";
+} from "../../../shared/domain/tournament";
+import { result, usesSets } from "../../../shared/domain/scoring";
+import { csvTemplate, exportCsv, importCsv } from "../../../shared/domain/csv";
 import { api, download, navigate, useTournament } from "../lib/api";
 import {
   Badge,
@@ -71,7 +71,7 @@ import {
   Notice,
   Status,
   UrlBox,
-} from "../components/ui";
+} from "../../../shared/components/ui";
 
 type FlowData = {
   stage: Stage;

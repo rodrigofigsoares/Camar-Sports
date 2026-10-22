@@ -1,7 +1,7 @@
 import { DatabaseSync } from "node:sqlite";
 import { mkdirSync } from "node:fs";
 import { dirname, resolve as resolvePath } from "node:path";
-import type { Match, Tournament, User } from "../src/domain/model.ts";
+import type { Match, Tournament, User } from "../../shared/domain/model.ts";
 
 export type Entity = Match | Tournament | (User & { passwordHash: string });
 export type Kind = "match" | "tournament" | "user";

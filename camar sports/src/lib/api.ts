@@ -1,8 +1,8 @@
-import { MatchCommands } from './match-commands';
-import { uppercaseTeams } from "./team-text";
+import { MatchCommands } from '../../../shared/lib/match-commands';
+import { uppercaseTeams } from "../../../shared/lib/team-text";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Command } from "../domain/scoring";
-import type { Match, Tournament, User } from "../domain/model";
+import type { Command } from "../../../shared/domain/scoring";
+import type { Match, Tournament, User } from "../../../shared/domain/model";
 const emptyMatches: Match[] = [];
 
 export class ApiError extends Error {

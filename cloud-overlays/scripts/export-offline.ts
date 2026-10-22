@@ -1,9 +1,9 @@
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createHash, randomBytes } from 'node:crypto';
-import { matchSchema, tournamentSchema } from '../src/domain/model.ts';
-import { pause } from '../src/domain/scoring.ts';
-import { validateTournament } from '../src/domain/tournament.ts';
+import { matchSchema, tournamentSchema } from '../../shared/domain/model.ts';
+import { pause } from '../../shared/domain/scoring.ts';
+import { validateTournament } from '../../shared/domain/tournament.ts';
 const source = '../camar sports/data/camar.sqlite';
 const db = new DatabaseSync(source,{readOnly:true});
 db.exec('BEGIN');

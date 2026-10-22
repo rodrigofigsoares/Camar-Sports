@@ -1,0 +1,10 @@
+{
+  "name": "camar-labs",
+  "private": true,
+  "description": "Camar Sports: placares ao vivo (versão offline e versão de nuvem) com código compartilhado em shared/.",
+  "workspaces": ["shared", "camar sports", "cloud-overlays"],
+  "scripts": {
+    "test": "npm test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present"
+  }
+}

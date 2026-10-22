@@ -1,9 +1,9 @@
-import { uppercaseTeams } from "./team-text";
+import { uppercaseTeams } from "../../../shared/lib/team-text";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { applyCommand, finishExpiredMatch, pause, type Command } from "../domain/scoring";
-import type { Match, Tournament, User } from "../domain/model";
+import { applyCommand, finishExpiredMatch, pause, type Command } from "../../../shared/domain/scoring";
+import type { Match, Tournament, User } from "../../../shared/domain/model";
 import { liveResource, nextClockEnd, subscribeLive } from './live';
-import { MatchCommands } from './match-commands';
+import { MatchCommands } from '../../../shared/lib/match-commands';
 const emptyMatches: Match[] = [];
 const snapshots = new Map<string, {etag: string; data: unknown}>();
 

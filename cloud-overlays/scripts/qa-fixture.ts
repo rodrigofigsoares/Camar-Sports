@@ -6,8 +6,8 @@ import {
   createTournament,
   team,
   type Sport,
-} from "../src/domain/model.ts";
-import { generate } from "../src/domain/tournament.ts";
+} from "../../shared/domain/model.ts";
+import { generate } from "../../shared/domain/tournament.ts";
 const repo = new SqliteRepository("artifacts/qa.sqlite");
 const salt = "local-development-fixture";
 repo.put("user", {

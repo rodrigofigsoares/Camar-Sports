@@ -24,7 +24,7 @@ import {
   type Sport,
   type Tournament,
   type User,
-} from "./domain/model";
+} from "../../shared/domain/model";
 import {
   api,
   download,
@@ -41,8 +41,8 @@ import {
   Modal,
   Notice,
   Status,
-} from "./components/ui";
-import { SportCourt } from "./components/SportCourt";
+} from "../../shared/components/ui";
+import { SportCourt } from "../../shared/components/SportCourt";
 import MatchControl from "./pages/MatchControl";
 import TournamentEditor from "./pages/TournamentEditor";
 import { MatchOverlay, TournamentOverlay } from "./pages/Overlays";

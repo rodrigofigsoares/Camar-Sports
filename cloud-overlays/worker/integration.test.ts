@@ -2,9 +2,9 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
 import { readFileSync, existsSync } from 'node:fs';
 import { D1Repository } from './repository';
-import { createMatch, createTournament, team, type Match } from '../src/domain/model';
-import { generate } from '../src/domain/tournament';
-import { clockValue } from '../src/domain/scoring';
+import { createMatch, createTournament, team, type Match } from '../../shared/domain/model';
+import { generate } from '../../shared/domain/tournament';
+import { clockValue } from '../../shared/domain/scoring';
 
 describe('Cloudflare worker with real local D1 runtime', () => {
   let mf: Miniflare, db: D1Database, cookie = '';

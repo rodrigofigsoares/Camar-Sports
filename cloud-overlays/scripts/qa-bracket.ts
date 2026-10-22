@@ -1,6 +1,6 @@
 import { SqliteRepository } from '../server/repository.ts';
-import { createTournament, team } from '../src/domain/model.ts';
-import { generate } from '../src/domain/tournament.ts';
+import { createTournament, team } from '../../shared/domain/model.ts';
+import { generate } from '../../shared/domain/tournament.ts';
 const repo = new SqliteRepository('artifacts/qa.sqlite');
 const t = createTournament('Copa · conjuntos de fases', 'handball');
 t.id = 'qa-group-bracket';

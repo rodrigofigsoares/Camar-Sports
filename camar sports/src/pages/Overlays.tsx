@@ -1,15 +1,15 @@
-import { TournamentBracket } from "../components/TournamentBracket";
-import { OverlayCrossfade } from "../components/OverlayCrossfade";
-import { Scoreboard } from "../components/Scoreboard21";
+import { TournamentBracket } from "../../../shared/components/TournamentBracket";
+import { OverlayCrossfade } from "../../../shared/components/OverlayCrossfade";
+import { Scoreboard } from "../../../shared/components/Scoreboard21";
 import { useMemo } from "react";
-import { type Match, type Tournament } from "../domain/model";
-import { result } from "../domain/scoring";
-import { resolveOverlay, type Resolved } from "../domain/tournament";
+import { type Match, type Tournament } from "../../../shared/domain/model";
+import { result } from "../../../shared/domain/scoring";
+import { resolveOverlay, type Resolved } from "../../../shared/domain/tournament";
 import { useNow, useResource } from "../lib/api";
-import { bracketPages, inGroup, type BracketColumn } from "../domain/bracket";
-import { Badge } from "../components/ui";
+import { bracketPages, inGroup, type BracketColumn } from "../../../shared/domain/bracket";
+import { Badge } from "../../../shared/components/ui";
 
-export { Scoreboard } from "../components/Scoreboard21";
+export { Scoreboard } from "../../../shared/components/Scoreboard21";
 
 export function MatchOverlay({ matchId }: { matchId: string }) {
   const { data, error } = useResource<Match>("matches/" + matchId),

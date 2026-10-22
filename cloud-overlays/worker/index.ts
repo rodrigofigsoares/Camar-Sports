@@ -3,8 +3,8 @@ import { createApi } from './api';
 import { auth, session } from './auth';
 import { D1Repository } from './repository';
 import { HttpError, json, type Env } from './types';
-import { finishExpiredMatch } from '../src/domain/scoring';
-import type { Match } from '../src/domain/model';
+import { finishExpiredMatch } from '../../shared/domain/scoring';
+import type { Match } from '../../shared/domain/model';
 import { connectLive, notifyCommitted } from './live';
 export { LiveRoom } from './live-room';
 

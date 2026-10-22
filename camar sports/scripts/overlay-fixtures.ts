@@ -1,5 +1,5 @@
 import { SqliteRepository } from "../server/repository.ts";
-import { createMatch, team, type Sport } from "../src/domain/model.ts";
+import { createMatch, team, type Sport } from "../../shared/domain/model.ts";
 const repo = new SqliteRepository("artifacts/qa.sqlite");
 for (const sport of [
   "handball",
