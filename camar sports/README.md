@@ -6,8 +6,11 @@ Estúdio local de operação esportiva refeito em **Vite + React + TypeScript**,
 
 Use **Node.js 24.2 ou superior** (validado com Node 26.1; o servidor usa `node:sqlite` e execução nativa de TypeScript).
 
+Instale as dependências **na raiz do repositório** (uma vez) e rode os comandos abaixo nesta pasta:
+
 ```powershell
-npm install
+npm install          # na raiz do repositório
+cd "camar sports"
 npm run dev
 ```
 
@@ -84,14 +87,14 @@ O operador confirma o encerramento de sets de vôlei/beach handball e o encerram
 
 ## Persistência e arquitetura
 
-- `src/domain/model.ts`: entidades e validação Zod.
-- `src/domain/scoring.ts`: comandos puros, relógios e regras esportivas.
-- `src/domain/tournament.ts`: geração, classificação, validação e resolução do grafo.
-- `src/domain/csv.ts`: intercâmbio CSV legado.
+- `../shared/domain/model.ts`: entidades e validação Zod.
+- `../shared/domain/scoring.ts`: comandos puros, relógios e regras esportivas.
+- `../shared/domain/tournament.ts`: geração, classificação, validação e resolução do grafo.
+- `../shared/domain/csv.ts`: intercâmbio CSV legado.
 - `server/repository.ts`: armazenamento SQLite, transações, histórico e sessões.
 - `server/api.ts`: autenticação, permissões, revisões, comandos e sincronização de participantes.
-- `src/lib/api.ts`: acesso HTTP e assinaturas da UI.
-- `src/pages`: operação, campeonatos e overlays.
+- `src/lib/api.ts`: acesso HTTP e assinaturas da UI; `platform` define o que difere da versão de nuvem.
+- `../shared/pages`: operação, campeonatos e overlays (compartilhados com a versão de nuvem).
 
 A base principal é `data/camar.sqlite`, com WAL. **Não apague a pasta `data`.** Para copiar diretamente o banco, pare o servidor antes; para backup durante a operação, use a exportação JSON. A variável `CAMAR_DB` permite escolher outro arquivo. Os dados não dependem de localStorage, da aba aberta ou de um estado único por esporte.
 

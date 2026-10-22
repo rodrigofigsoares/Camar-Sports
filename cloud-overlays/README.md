@@ -59,10 +59,11 @@ Fontes oficiais:
 
 ## Desenvolvimento e publicação
 
-Node 24.2 ou superior.
+Node 24.2 ou superior. As dependências são instaladas **na raiz do repositório** (npm workspaces); os demais comandos rodam nesta pasta.
 
 ```powershell
-npm ci
+npm ci               # na raiz do repositório
+cd cloud-overlays
 npm run db:local
 npm run build
 npm start
